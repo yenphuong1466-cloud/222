@@ -7,6 +7,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,30 +22,25 @@ app.use(express.urlencoded({ extended: true }));
 
 // 3. Health Check
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
-    message: 'Hệ thống Auth & Phân quyền hoạt động ổn định!' 
-  });
+  res.status(200).json({ status: 'OK', message: 'Hệ thống Quản lý Đơn hàng hoạt động ổn định!' });
 });
 
 // 4. Định tuyến API
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
 
 // 5. Bắt lỗi 404
 app.use((req, res) => {
-  res.status(404).json({ 
-    success: false, 
-    message: `Đường dẫn [${req.method}] ${req.originalUrl} không tồn tại!` 
-  });
+  res.status(404).json({ success: false, message: `Đường dẫn [\({req.method}]\){req.originalUrl} không tồn tại!` });
 });
 
 // 6. Khởi chạy Server
 app.listen(PORT, () => {
   console.log('====================================================');
-  console.log(`🚀 Server Tuần 04 đang chạy tại: http://localhost:${PORT}`);
-  console.log(`🔑 Test Đăng nhập: POST http://localhost:${PORT}/api/auth/login`);
-  console.log(`📦 Test Sản phẩm: GET http://localhost:${PORT}/api/products`);
+  console.log(`🚀 Server Tuần 05 đang chạy tại: http://localhost:${PORT}`);
+  console.log(`🛒 Test Đặt hàng: POST http://localhost:${PORT}/api/orders`);
+  console.log(`📋 Test Danh sách đơn: GET http://localhost:${PORT}/api/orders`);
   console.log('====================================================');
 });
